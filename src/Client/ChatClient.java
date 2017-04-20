@@ -32,7 +32,11 @@ public class ChatClient {
         ChatServerInterface h = (ChatServerInterface)Naming.lookup("rmi://localhost:2222/chat");
         ChatClientInterface cliente = new ChatClientImpl(userName, passwd);
         
-        h.register(cliente);
+        if(h.register(cliente)){
+            System.out.println("Ha ido to bien.");
+            System.out.println("Mis amigos son: ");
+            cliente.getAmigos().forEach((k, v) -> System.out.println("Key: " + k));
+        }
         
         do{
             System.out.println("Que queres faser? (send / exit)");
@@ -40,11 +44,15 @@ public class ChatClient {
             if(op.equals("send")){
                 System.out.println("A quen?");
                 userName = (br.readLine()).trim();
-                for(ChatClientInterface C : cliente.getAmigos()){
-                    if(C.getNombre().equals(userName)){
-                        C.textMe(cliente.getNombre(), "Hola guapeton!");
-                    }
+                try{
+                    cliente.getAmigos().get(userName).textMe(cliente.getNombre(), "Hola guapeton!");
+                }catch(NullPointerException e){
+                    op="null";
+                    System.out.println("NullPointerException tratando de enviar a: " + userName);
                 }
+            }else if(op.equals("print")){
+                System.out.println("Mis amigos son: ");
+                cliente.getAmigos().forEach((k, v) -> System.out.println("Key: " + k));
             }
         }while(!op.equals("exit"));
         

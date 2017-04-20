@@ -8,6 +8,7 @@ package Client;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -17,13 +18,13 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
     
     private String nombre;
     private String password;
-    private ArrayList<ChatClientInterface> amigos;
+    private HashMap<String, ChatClientInterface> amigos;
     
     public ChatClientImpl(String name, String passwd) throws RemoteException{
         super();
         nombre=name;
         password=passwd;
-        amigos = new ArrayList();
+        amigos = new HashMap();
     }
 
     @Override
@@ -42,11 +43,11 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
     }
 
     @Override
-    public ArrayList<ChatClientInterface> getAmigos() throws java.rmi.RemoteException{
+    public HashMap<String, ChatClientInterface> getAmigos() throws java.rmi.RemoteException{
         return amigos;
     }
     @Override
-    public void setAmigos(ArrayList<ChatClientInterface> amigos) throws java.rmi.RemoteException{
+    public void setAmigos(HashMap<String, ChatClientInterface> amigos) throws java.rmi.RemoteException{
         this.amigos = amigos;
     }
 

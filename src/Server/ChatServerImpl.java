@@ -8,7 +8,7 @@ package Server;
 import Client.ChatClientInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,21 +29,29 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
 
     @Override
     public boolean register(ChatClientInterface cliente) throws RemoteException {
-        if(!clientesConectados.containsKey(cliente.getNombre())){
-            ArrayList<ChatClientInterface> amigos = new ArrayList();
-
-            clientesConectados.entrySet().forEach((entry) -> { //Con esto se añaden todos los clientes conectados a la lista de amigos.
-                amigos.add(entry.getValue());
-                try {                                
-                    entry.getValue().getAmigos().add(cliente);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-            clientesConectados.put(cliente.getNombre(), cliente);   //Se añade a los clientesConectados
-            cliente.setAmigos(amigos);
-            System.out.println(cliente.getNombre() + " ha iniciado sesión.");
-            return true;
+        
+        try{
+            if(!clientesConectados.containsKey(cliente.getNombre())){
+            
+                /*Class.forName("com.mysql.jdbc.Driver");
+                
+	    	String url = "jdbc:mysql://localhost/chat";
+      		Connection con = DriverManager.getConnection(url, "root", "root");*/
+                
+                clientesConectados.put(cliente.getNombre(), cliente);   //Se añade a los clientesConectados
+                clientesConectados.forEach((k, v) -> {
+                    try {
+                        clientesConectados.get(k).setAmigos(clientesConectados);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                System.out.println(cliente.getNombre() + " ha iniciado sesión.");
+                return true;
+            
+        }
+        }catch(Exception e){
+            System.out.println("Excepcion en registro: "+ e);
         }
         return false;
     }

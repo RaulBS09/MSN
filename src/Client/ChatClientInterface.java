@@ -6,7 +6,7 @@
 package Client;
 
 import java.rmi.Remote;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -17,6 +17,6 @@ public interface ChatClientInterface extends Remote{
     public void textMe(String user, String msg) throws java.rmi.RemoteException;
     
     public String getNombre() throws java.rmi.RemoteException;
-    public void setAmigos(ArrayList<ChatClientInterface> amigos)  throws java.rmi.RemoteException;
-    public ArrayList<ChatClientInterface> getAmigos()  throws java.rmi.RemoteException;
+    public void setAmigos(HashMap<String, ChatClientInterface> amigos)  throws java.rmi.RemoteException;
+    public HashMap<String, ChatClientInterface> getAmigos()  throws java.rmi.RemoteException;
 }

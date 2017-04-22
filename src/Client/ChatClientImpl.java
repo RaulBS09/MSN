@@ -20,6 +20,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
     private String password;
     private HashMap<String, ChatClientInterface> amigos;
     
+    //CONSTRUCTOR
     public ChatClientImpl(String name, String passwd) throws RemoteException{
         super();
         nombre=name;
@@ -27,6 +28,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
         amigos = new HashMap();
     }
 
+    //GETTERS & SETTERS
     @Override
     public String getNombre() throws java.rmi.RemoteException{
         return nombre;
@@ -51,9 +53,15 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
         this.amigos = amigos;
     }
 
+    //METODOS ----------------------------------------------------------------------------------------
     @Override
     public void textMe(String user, String msg) throws RemoteException {
         System.out.println(user + "dice: " + msg);
+    }
+
+    @Override
+    public void newLogin(String user) throws RemoteException {
+        System.out.println(user + " es tu colegui y ha iniciado sesión.");
     }
     
     

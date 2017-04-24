@@ -5,17 +5,28 @@
  */
 package Client.Vista;
 
+import Client.ChatClientImpl;
+import Client.ChatClientInterface;
+import Server.ChatServerInterface;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author raulbrun
  */
 public class Login extends javax.swing.JPanel {
-
+    private final ChatServerInterface servidor;
+    private final VFrame ventana;
     /**
      * Creates new form Login
+     * @param server
+     * @param v
      */
-    public Login() {
+    public Login(ChatServerInterface server, VFrame v) {
         initComponents();
+        servidor = server;
+        ventana = v;
+        mensajeError.setVisible(false);
     }
 
     /**
@@ -29,12 +40,12 @@ public class Login extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        userName = new javax.swing.JTextField();
+        passwd = new javax.swing.JPasswordField();
+        titulo = new javax.swing.JLabel();
+        subtitulo = new javax.swing.JLabel();
+        goTo_vPrincipal = new javax.swing.JButton();
+        mensajeError = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Nombre de usuario");
@@ -42,95 +53,107 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setText("Contraseña");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                userNameActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
-        jLabel3.setText("Chat Distribuido");
+        titulo.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        titulo.setText("Chat Distribuido");
 
-        jLabel4.setText("Login");
+        subtitulo.setText("Login");
 
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        goTo_vPrincipal.setText("Aceptar");
+        goTo_vPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                goTo_vPrincipalActionPerformed(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(248, 56, 56));
-        jLabel5.setText("Nombre de usuario o contraseña inválidos");
+        mensajeError.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        mensajeError.setForeground(new java.awt.Color(248, 56, 56));
+        mensajeError.setText("Nombre de usuario o contraseña inválidos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(76, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(227, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(113, 113, 113))
+                        .addComponent(titulo)
+                        .addGap(66, 66, 66))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(168, 168, 168))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                    .addComponent(jTextField1))))
-                        .addGap(47, 47, 47))))
+                        .addComponent(goTo_vPrincipal)
+                        .addGap(121, 121, 121))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(mensajeError)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(subtitulo)
+                                .addComponent(passwd)
+                                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(204, 204, 204))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
+                .addGap(85, 85, 85)
+                .addComponent(titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(subtitulo)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(goTo_vPrincipal)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(mensajeError)
+                .addContainerGap(114, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void goTo_vPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goTo_vPrincipalActionPerformed
+        
+        try {
+            ChatClientInterface cliente = new ChatClientImpl(userName.getText(), passwd.getText());
+            if(servidor.register(cliente)){
+                vPrincipal vista = new vPrincipal((ChatClientImpl)cliente, ventana, servidor);
+                cliente.setPanel(vista);
+                ventana.setContentPane(vista);
+                ventana.setVisible(true);
+            }else
+                mensajeError.setVisible(true);
+        } catch (RemoteException ex) {
+            
+        }
+    }//GEN-LAST:event_goTo_vPrincipalActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
+    }//GEN-LAST:event_userNameActionPerformed
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton goTo_vPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel mensajeError;
+    private javax.swing.JPasswordField passwd;
+    private javax.swing.JLabel subtitulo;
+    private javax.swing.JLabel titulo;
+    private javax.swing.JTextField userName;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,18 +9,18 @@ import Client.ChatClientImpl;
 import Client.ChatClientInterface;
 import Server.ChatServerInterface;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author raulbrun
  */
 public class Login extends javax.swing.JPanel {
-    private ChatServerInterface servidor;
-    private VFrame ventana;
+    private final ChatServerInterface servidor;
+    private final VFrame ventana;
     /**
      * Creates new form Login
+     * @param server
+     * @param v
      */
     public Login(ChatServerInterface server, VFrame v) {
         initComponents();
@@ -79,33 +79,32 @@ public class Login extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(76, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(227, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(titulo)
-                        .addGap(113, 113, 113))
+                        .addGap(66, 66, 66))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(goTo_vPrincipal)
-                        .addGap(168, 168, 168))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mensajeError)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(subtitulo)
-                                    .addComponent(passwd, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                    .addComponent(userName))))
-                        .addGap(47, 47, 47))))
+                        .addGap(121, 121, 121))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(mensajeError)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(subtitulo)
+                                .addComponent(passwd)
+                                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(204, 204, 204))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(85, 85, 85)
                 .addComponent(titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(subtitulo)
@@ -121,18 +120,19 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(goTo_vPrincipal)
                 .addGap(18, 18, 18)
                 .addComponent(mensajeError)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void goTo_vPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goTo_vPrincipalActionPerformed
-        String usuario, contrasenha;
         
         try {
             ChatClientInterface cliente = new ChatClientImpl(userName.getText(), passwd.getText());
             if(servidor.register(cliente)){
-                vPrincipal vista = new vPrincipal(cliente, ventana, servidor);
+                vPrincipal vista = new vPrincipal((ChatClientImpl)cliente, ventana, servidor);
+                cliente.setPanel(vista);
                 ventana.setContentPane(vista);
+                ventana.setVisible(true);
             }else
                 mensajeError.setVisible(true);
         } catch (RemoteException ex) {
@@ -143,7 +143,8 @@ public class Login extends javax.swing.JPanel {
     private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameActionPerformed
-
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton goTo_vPrincipal;

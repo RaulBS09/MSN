@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Client.ChatClientImpl;
 import Client.ChatClientInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

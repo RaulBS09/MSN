@@ -17,4 +17,8 @@ public interface ChatServerInterface extends Remote {
     public boolean register (ChatClientInterface cliente) throws java.rmi.RemoteException;
     public void unRegister (ChatClientInterface cliente) throws java.rmi.RemoteException;
     
+    public boolean registro (String idUsuario, String password, ChatClientInterface client);
+    public boolean login (String idUsuario, String password, ChatClientInterface client);
+    public boolean changePass (String idUsuario, String oldPass , String newPass);
+    
 }

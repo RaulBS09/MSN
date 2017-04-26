@@ -9,6 +9,8 @@ import Client.ChatClientImpl;
 import Client.ChatClientInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -33,16 +35,11 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
         
         try{
             if(!clientesConectados.containsKey(cliente.getNombre())){
-            
-                /*Class.forName("com.mysql.jdbc.Driver");
-                
-	    	String url = "jdbc:mysql://localhost/chat";
-      		Connection con = DriverManager.getConnection(url, "root", "root");*/
                 
                 clientesConectados.put(cliente.getNombre(), cliente);   //Se añade a los clientesConectados
                 clientesConectados.forEach((k, v) -> {
                     try {
-                        clientesConectados.get(k).setAmigos(clientesConectados);
+                        clientesConectados.get(k).getNombre();
                     } catch (RemoteException ex) {
                         Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -61,4 +58,63 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
     public void unRegister(ChatClientInterface cliente) throws RemoteException {
         clientesConectados.remove(cliente.getNombre());
     }
+
+    @Override
+    public boolean registro(String idUsuario, String password, ChatClientInterface client) {
+        try {
+            ConexionBD.testDriver();
+            ConexionBD con=new ConexionBD();
+            
+            Connection c = con.obtenerConexion("localhost:3306", "tiendaDAWA");
+            //Fijamos el nivel de aislamiento de la BD
+            c.setTransactionIsolation(4);
+            con.ejecutarOperacion("INSERT INTO usuarios VALUES('"+idUsuario+"','"+password+"');");
+            c.close();
+            con.cerrarConexion();
+            register(client);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean login(String idUsuario, String password, ChatClientInterface client) {
+        try {
+            
+            ConexionBD.testDriver();
+            ConexionBD con=new ConexionBD();
+            
+            Connection c = con.obtenerConexion("localhost:3306", "tiendaDAWA");
+            
+            ResultSet rs;
+            //Fijamos el nivel de aislamiento de la BD
+            c.setTransactionIsolation(2);
+            
+            rs=con.ejecutarConsulta("SELECT * FROM usuarios WHERE idUsuario='"+idUsuario+"';");
+            
+            if(rs.next()){
+                if(password.equals(rs.getString("password"))){
+                    register(client);
+                }
+                
+            }
+            rs.close();
+            c.close();
+            con.cerrarConexion();
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changePass(String idUsuario, String oldPass, String newPass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
 }

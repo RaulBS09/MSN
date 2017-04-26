@@ -17,4 +17,10 @@ public interface ChatServerInterface extends Remote {
     public boolean register (ChatClientInterface cliente) throws java.rmi.RemoteException;
     public void unRegister (ChatClientInterface cliente) throws java.rmi.RemoteException;
     
+    public boolean registro (String nombre, String clave) throws java.rmi.RemoteException;
+    public boolean bajaUsuario (String nombre, String clave) throws java.rmi.RemoteException;
+    
+    public boolean envioPeticionAmistad(String origen, String destino) throws java.rmi.RemoteException;
+    public void aceptarPeticion(String origen, String destino) throws java.rmi.RemoteException;
+    public void rechazarPeticion(String origen, String destino) throws java.rmi.RemoteException;
 }

@@ -46,6 +46,7 @@ public class Login extends javax.swing.JPanel {
         subtitulo = new javax.swing.JLabel();
         goTo_vPrincipal = new javax.swing.JButton();
         mensajeError = new javax.swing.JLabel();
+        botonRegistrarse = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Nombre de usuario");
@@ -64,7 +65,7 @@ public class Login extends javax.swing.JPanel {
 
         subtitulo.setText("Login");
 
-        goTo_vPrincipal.setText("Aceptar");
+        goTo_vPrincipal.setText("Iniciar Sesión");
         goTo_vPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goTo_vPrincipalActionPerformed(evt);
@@ -74,6 +75,13 @@ public class Login extends javax.swing.JPanel {
         mensajeError.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         mensajeError.setForeground(new java.awt.Color(248, 56, 56));
         mensajeError.setText("Nombre de usuario o contraseña inválidos");
+
+        botonRegistrarse.setText("Registrarse");
+        botonRegistrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -85,20 +93,22 @@ public class Login extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(titulo)
                         .addGap(66, 66, 66))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(goTo_vPrincipal)
-                        .addGap(121, 121, 121))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(mensajeError)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(goTo_vPrincipal)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(subtitulo)
                                 .addComponent(passwd)
-                                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(29, 29, 29)
+                                    .addComponent(botonRegistrarse))))))
                 .addGap(204, 204, 204))
         );
         layout.setVerticalGroup(
@@ -117,7 +127,9 @@ public class Login extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(passwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(goTo_vPrincipal)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(goTo_vPrincipal)
+                    .addComponent(botonRegistrarse))
                 .addGap(18, 18, 18)
                 .addComponent(mensajeError)
                 .addContainerGap(114, Short.MAX_VALUE))
@@ -143,10 +155,31 @@ public class Login extends javax.swing.JPanel {
     private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameActionPerformed
+
+    private void botonRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarseActionPerformed
+        try {
+            if(servidor.registro(userName.getText(), passwd.getText())){ //Si el registro va bien, se logea directamente al usuario
+                ChatClientInterface cliente = new ChatClientImpl(userName.getText(), passwd.getText());
+                if(servidor.register(cliente)){
+                    vPrincipal vista = new vPrincipal((ChatClientImpl)cliente, ventana, servidor);
+                    cliente.setPanel(vista);
+                    ventana.setContentPane(vista);
+                    ventana.setVisible(true);
+                }else
+                    mensajeError.setVisible(true);
+            }else{
+                mensajeError.setText("Nombre de usuario no disponible");
+                mensajeError.setVisible(true);
+            }
+        } catch (RemoteException ex) {
+            System.out.println("RemoteException detectada al registrarse : " + ex.getMessage());
+        }
+    }//GEN-LAST:event_botonRegistrarseActionPerformed
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonRegistrarse;
     private javax.swing.JButton goTo_vPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

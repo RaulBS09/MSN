@@ -60,6 +60,7 @@ public class vPrincipal extends javax.swing.JPanel {
         notificaciones = new javax.swing.JLabel();
         goTo_login = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        goTo_miCuenta = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(224, 224, 224));
         setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -112,6 +113,15 @@ public class vPrincipal extends javax.swing.JPanel {
             }
         });
 
+        goTo_miCuenta.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        goTo_miCuenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Client/Vista/icono-perfil-azul.png"))); // NOI18N
+        goTo_miCuenta.setText("Mi Cuenta");
+        goTo_miCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goTo_miCuentaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,7 +147,10 @@ public class vPrincipal extends javax.swing.JPanel {
                         .addComponent(botonEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(goTo_miCuenta)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -146,26 +159,29 @@ public class vPrincipal extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonEnviar))
-                        .addGap(0, 27, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(goTo_login)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(175, 175, 175)
-                                .addComponent(jButton1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1)
+                                .addGap(164, 164, 164))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(goTo_login)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(notificaciones)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(goTo_petAmistad)
-                        .addGap(27, 27, 27))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(goTo_miCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(goTo_petAmistad)
+                    .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEnviar))
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,6 +232,10 @@ public class vPrincipal extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_botonEnviarActionPerformed
+
+    private void goTo_miCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goTo_miCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_goTo_miCuentaActionPerformed
     
     public void actualizaAmigos(){
 
@@ -251,6 +271,7 @@ public class vPrincipal extends javax.swing.JPanel {
     private javax.swing.JButton botonEnviar;
     private javax.swing.JTextArea conversacion;
     private javax.swing.JButton goTo_login;
+    private javax.swing.JButton goTo_miCuenta;
     private javax.swing.JButton goTo_petAmistad;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;

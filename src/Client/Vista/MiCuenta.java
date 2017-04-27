@@ -10,12 +10,21 @@ package Client.Vista;
  * @author raulbrun
  */
 public class MiCuenta extends javax.swing.JPanel {
-
+    private final vPrincipal vista;
+    private VFrame ventana;
     /**
      * Creates new form vPrincipal
+     * @param vista
+     * @param ventana
      */
-    public MiCuenta() {
+    public MiCuenta(vPrincipal vista, VFrame ventana) {
         initComponents();
+        this.vista = vista;
+        this.ventana = ventana;
+        userName.setText(vista.getUsuario().getNombre());
+        error1.setVisible(false);
+        error2.setVisible(false);
+        not_confirmacion.setVisible(false);
     }
 
     /**

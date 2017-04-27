@@ -29,6 +29,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         ventana = cuadro;
         not_nuevoAmigo.setVisible(false);
         not_envioPeticion.setVisible(false);
+        modelo = new DefaultListModel();
         try {
             ArrayList<String> peticiones = vista.getServidor().getPeticiones(vista.getUsuario().getNombre());
             for(String s : peticiones)

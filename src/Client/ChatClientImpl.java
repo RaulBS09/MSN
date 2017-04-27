@@ -99,5 +99,14 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
 
             amigos.get(nombre).textMe(this.nombre, msg);
     }
+
+    public void notificarAmigoConectado(String idAmigo, ChatClientInterface amigo) {
+        amigos.put(idAmigo, amigo);
+    }
+
+    @Override
+    public void notificarAmigoDesconectado(String idAmigo) {
+        amigos.remove(idAmigo);
+    }
     
 }

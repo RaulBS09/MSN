@@ -20,6 +20,8 @@ public interface ChatClientInterface extends Remote{
     
     public String getNombre() throws java.rmi.RemoteException;
     public void setAmigos(HashMap<String, ChatClientInterface> amigos)  throws java.rmi.RemoteException;
+    public void notificarAmigoConectado(String idAmigo, ChatClientInterface amigo);
+    public void notificarAmigoDesconectado (String idAmigo);
     
     public void setPanel(vPrincipal vista) throws java.rmi.RemoteException;
 }

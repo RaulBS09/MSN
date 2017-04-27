@@ -20,7 +20,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="not_nuevoAmigo" max="32767" attributes="0"/>
-                  <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="back" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -39,7 +39,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="not_envioPeticion" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jTextField1" alignment="0" pref="198" max="32767" attributes="0"/>
+                                  <Component id="peticionAmistad" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="botonEnviar" min="-2" max="-2" attributes="0"/>
@@ -47,7 +47,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="72" max="32767" attributes="0"/>
+              <EmptySpace pref="58" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,7 +55,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <Component id="back" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -73,7 +73,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="peticionAmistad" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="botonEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -98,7 +98,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList1">
+        <Component class="javax.swing.JList" name="listaPeticiones">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="0"/>
@@ -110,10 +110,13 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="back">
       <Properties>
         <Property name="text" type="java.lang.String" value="Atr&#xe1;s"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -132,6 +135,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Rechazar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRechazarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="not_nuevoAmigo">
       <Properties>
@@ -141,6 +147,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="39" green="c5" red="1" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="Ahora x es tu amigo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -148,7 +155,7 @@
         <Property name="text" type="java.lang.String" value="Enviar petici&#xf3;n de amistad a: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="peticionAmistad">
     </Component>
     <Component class="javax.swing.JButton" name="botonEnviar">
       <Properties>
@@ -159,6 +166,15 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="not_envioPeticion">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Noto Sans" size="14" style="3"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="46" green="c4" red="41" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Petici&#xf3;n enviada correctamente"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

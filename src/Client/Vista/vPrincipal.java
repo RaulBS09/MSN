@@ -240,6 +240,13 @@ public class vPrincipal extends javax.swing.JPanel {
     public void newLogin(String nombre){
         notificaciones.setText(nombre +" ha iniciado sesión");
     }
+    
+    protected ChatClientImpl getUsuario(){
+        return usuario;
+    }
+    protected ChatServerInterface getServidor(){
+        return servidor;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEnviar;
     private javax.swing.JTextArea conversacion;

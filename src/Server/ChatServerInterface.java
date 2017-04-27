@@ -7,6 +7,7 @@ package Server;
 
 import Client.ChatClientInterface;
 import java.rmi.Remote;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,4 +24,5 @@ public interface ChatServerInterface extends Remote {
     public boolean envioPeticionAmistad(String origen, String destino) throws java.rmi.RemoteException;
     public void aceptarPeticion(String origen, String destino) throws java.rmi.RemoteException;
     public void rechazarPeticion(String origen, String destino) throws java.rmi.RemoteException;
+    public ArrayList<String> getPeticiones(String nombre) throws java.rmi.RemoteException;
 }

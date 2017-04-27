@@ -270,9 +270,9 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
             
             //Fijamos el nivel de aislamiento de la BD
             c.setTransactionIsolation(2);
-            rs=con.ejecutarConsulta("select * from peticiones where addressedId = '%"+nombre+"%';");
+            rs=con.ejecutarConsulta("select * from peticiones where addressedId = '" + nombre +"';");
             while(rs.next()){
-                resultados.add(rs.getString("idUsuario"));
+                resultados.add(rs.getString("userId"));
             }
             rs.close();
             c.close();

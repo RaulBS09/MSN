@@ -95,7 +95,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
             C = C + " \n\t\t\t <- " + msg;
             conversaciones.remove(nombre);
         }else{
-            C = "-> " + msg;
+            C = "\n\t\t\t <-" + msg;
         }
         conversaciones.put(nombre, C);
         panel.actualizaConversacion(nombre);

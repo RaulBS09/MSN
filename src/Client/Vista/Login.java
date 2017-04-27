@@ -148,7 +148,6 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void goTo_vPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goTo_vPrincipalActionPerformed
-        
         try {
             ChatClientInterface cliente = new ChatClientImpl(userName.getText(), passwd.getText(), servidor);
             if(cliente.login()){
@@ -156,6 +155,7 @@ public class Login extends javax.swing.JPanel {
                 cliente.setPanel(vista);
                 ventana.setContentPane(vista);
                 ventana.setVisible(true);
+                ventana.setTitle(userName.getText());
             }else{
                 mensajeError.setText("Nombre de usuario o contraseña inválidos");
                 mensajeError.setVisible(true);
@@ -177,6 +177,7 @@ public class Login extends javax.swing.JPanel {
                 cliente.setPanel(vista);
                 ventana.setContentPane(vista);
                 ventana.setVisible(true);
+                ventana.setTitle(userName.getText());
             }else{
                 mensajeError.setText("Nombre de usuario no disponible");
                 mensajeError.setVisible(true);

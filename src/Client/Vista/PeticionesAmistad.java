@@ -207,6 +207,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         try {
             // TODO add your handling code here:
             vista.getServidor().envioPeticionAmistad(vista.getUsuario().getNombre(), peticionAmistad.getText());
+            not_envioPeticion.setVisible(true);
         } catch (RemoteException ex) {
             Logger.getLogger(PeticionesAmistad.class.getName()).log(Level.SEVERE, null, ex);
         }

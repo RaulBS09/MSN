@@ -29,7 +29,7 @@ public class ChatServer {
           registryURL = 
             "rmi://localhost:2222/chat";
           Naming.rebind(registryURL, exportedObj);
-          System.out.println("Callback Server ready.");
+          System.out.println("~Servidor de chat listo~");
           
         }// end try
         catch (Exception re) {

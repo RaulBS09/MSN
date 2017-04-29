@@ -8,6 +8,11 @@ package Client.Vista;
 import Client.ChatClientImpl;
 import Client.ChatClientInterface;
 import Server.ChatServerInterface;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 
 /**
@@ -40,6 +46,7 @@ public class vPrincipal extends javax.swing.JPanel {
         ventana = v;
         servidor = server;
         this.actualizaAmigos();
+        enviarArchivo.setVisible(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,6 +68,8 @@ public class vPrincipal extends javax.swing.JPanel {
         goTo_login = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         goTo_miCuenta = new javax.swing.JButton();
+        conversacionActual = new javax.swing.JLabel();
+        enviarArchivo = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(224, 224, 224));
         setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -95,8 +104,8 @@ public class vPrincipal extends javax.swing.JPanel {
             }
         });
 
-        notificaciones.setForeground(new java.awt.Color(68, 142, 241));
-        notificaciones.setText(".:");
+        notificaciones.setFont(new java.awt.Font("Noto Sans", 3, 14)); // NOI18N
+        notificaciones.setForeground(new java.awt.Color(37, 180, 61));
 
         goTo_login.setBackground(new java.awt.Color(192, 124, 124));
         goTo_login.setForeground(new java.awt.Color(151, 2, 2));
@@ -125,6 +134,18 @@ public class vPrincipal extends javax.swing.JPanel {
             }
         });
 
+        conversacionActual.setFont(new java.awt.Font("Noto Sans", 3, 14)); // NOI18N
+        conversacionActual.setForeground(new java.awt.Color(45, 72, 216));
+
+        enviarArchivo.setBackground(new java.awt.Color(149, 223, 215));
+        enviarArchivo.setText("Enviar Archivo");
+        enviarArchivo.setBorder(null);
+        enviarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarArchivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,57 +155,61 @@ public class vPrincipal extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(notificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(notificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(goTo_petAmistad, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addGap(71, 71, 71)
                         .addComponent(goTo_login)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(botonEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(goTo_miCuenta)
-                        .addGap(13, 13, 13)))
-                .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(conversacionActual, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(goTo_miCuenta))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(44, 44, 44)
+                            .addComponent(botonEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(enviarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(goTo_login)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(175, 175, 175)
-                                .addComponent(jButton1)
-                                .addGap(164, 164, 164))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(goTo_login)
-                                .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(notificaciones))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(166, 166, 166)))
+                        .addComponent(notificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(goTo_petAmistad)
+                        .addGap(27, 27, 27))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(goTo_miCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(goTo_petAmistad)
-                    .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEnviar))
-                .addGap(27, 27, 27))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(goTo_miCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(conversacionActual, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textoEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonEnviar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enviarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -219,6 +244,8 @@ public class vPrincipal extends javax.swing.JPanel {
         if(index >= 0){
             String nombre = (String)modelo.get(index);
             this.actualizaConversacion(nombre);
+            conversacionActual.setText(nombre);
+            enviarArchivo.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -231,7 +258,7 @@ public class vPrincipal extends javax.swing.JPanel {
             String mensaje = textoEnviar.getText();
             try {
                 usuario.enviarMensaje(nombre, mensaje);
-                
+                textoEnviar.setText("");
             } catch (RemoteException ex) {
                 //Error al enviar
                 Logger.getLogger(vPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,8 +268,27 @@ public class vPrincipal extends javax.swing.JPanel {
 
     private void goTo_miCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goTo_miCuentaActionPerformed
         // TODO add your handling code here:
-        
+        MiCuenta mC = new MiCuenta(this, ventana);
+        ventana.setContentPane(mC);
+        ventana.setVisible(true);
     }//GEN-LAST:event_goTo_miCuentaActionPerformed
+
+    private void enviarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarArchivoActionPerformed
+        /*Función encargada de enviar archivos entre clientes ~~ */
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(this);
+        File archivo = chooser.getSelectedFile();
+        Path ruta = Paths.get(archivo.getAbsolutePath());
+        try {
+            byte[] data = Files.readAllBytes(ruta);
+            String destino = conversacionActual.getText();
+            
+            usuario.getAmigos().get(destino).envioArchivo("("+usuario.getNombre()+")"+archivo.getName(), data, data.length);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(vPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_enviarArchivoActionPerformed
     
     public void actualizaAmigos(){
 
@@ -278,6 +324,8 @@ public class vPrincipal extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEnviar;
     private javax.swing.JTextArea conversacion;
+    private javax.swing.JLabel conversacionActual;
+    private javax.swing.JButton enviarArchivo;
     private javax.swing.JButton goTo_login;
     private javax.swing.JButton goTo_miCuenta;
     private javax.swing.JButton goTo_petAmistad;

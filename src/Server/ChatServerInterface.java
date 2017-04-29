@@ -28,6 +28,7 @@ public interface ChatServerInterface extends Remote {
     public boolean aceptarPeticion(String origen, String destino) throws java.rmi.RemoteException;
     public boolean rechazarPeticion(String origen, String destino) throws java.rmi.RemoteException;
     public ArrayList<String> getPeticiones(String nombre) throws java.rmi.RemoteException;
+    
     public boolean changePass(String idUsuario, String oldPass, String newPass)throws java.rmi.RemoteException;
     public ArrayList<String> buscarUsuarios(String idUsuario, String nombre)throws java.rmi.RemoteException;
 }

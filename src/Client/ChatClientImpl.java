@@ -7,6 +7,9 @@ package Client;
 
 import Client.Vista.vPrincipal;
 import Server.ChatServerInterface;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -62,6 +65,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
         this.amigos = amigos;
     }
     
+    @Override
     public void setPanel(vPrincipal vista){
         panel = vista;
     }
@@ -113,6 +117,7 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
     @Override
     public void notificarAmigoDesconectado(String idAmigo) {
         amigos.remove(idAmigo);
+        panel.actualizaAmigos();
     }
     
     @Override
@@ -121,6 +126,23 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
         amigos = servidor.login(nombre, password, this);
         
         return amigos != null;
+        
+    }
+
+    @Override
+    public void envioArchivo(String file, byte[] data, int tam) throws RemoteException {
+        try {
+            File f = new File(file);
+            f.createNewFile();
+            FileOutputStream out = new FileOutputStream(f, true);
+            
+            out.write(data, 0, tam);
+            out.flush();
+            out.close();
+            System.out.println("Done writing data...");
+        } catch (IOException ex) {
+            Logger.getLogger(ChatClientImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 }

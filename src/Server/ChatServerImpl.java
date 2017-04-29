@@ -171,7 +171,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
             
             if(rs.next()){
                 if(oldPass.equals(rs.getString("password"))){
-                    con.ejecutarOperacion("update usuarios set password=" + newPass + "where idUsuario=" + idUsuario +";");
+                    con.ejecutarOperacion("UPDATE usuarios SET password='" + newPass + "' WHERE idUsuario = '" + idUsuario +"';");
                     resultado = true;
                 }
                 
@@ -295,7 +295,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
             
             //Fijamos el nivel de aislamiento de la BD
             c.setTransactionIsolation(2);
-            rs=con.ejecutarConsulta("select * from usuarios where idUsuario like '%"+nombre+"%' AND not like '"+idUsuario+"';");
+            rs=con.ejecutarConsulta("SELECT * FROM usuarios WHERE idUsuario LIKE '%"+nombre+"%' AND idUsuario NOT LIKE '"+idUsuario+"';");
             while(rs.next()){
                 resultados.add(rs.getString("idUsuario"));
             }

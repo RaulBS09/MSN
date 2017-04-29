@@ -5,6 +5,10 @@
  */
 package Client.Vista;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author raulbrun
@@ -39,8 +43,8 @@ public class MiCuenta extends javax.swing.JPanel {
         back = new javax.swing.JButton();
         userName = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        oldPass = new javax.swing.JPasswordField();
+        newPass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         error1 = new javax.swing.JLabel();
@@ -65,6 +69,12 @@ public class MiCuenta extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel1.setText("Cambiar contraseña:");
 
+        oldPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oldPassActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Contraseña actual");
 
         jLabel3.setText("Nueva contraseña");
@@ -77,6 +87,11 @@ public class MiCuenta extends javax.swing.JPanel {
         jLabel4.setText("Darse de baja: ");
 
         botonCambio.setText("Cambiar");
+        botonCambio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCambioActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Contraseña para confirmar");
 
@@ -85,6 +100,11 @@ public class MiCuenta extends javax.swing.JPanel {
         error2.setText("La contraseña actual no es correcta");
 
         botonBaja.setText("Confirmar");
+        botonBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBajaActionPerformed(evt);
+            }
+        });
 
         not_confirmacion.setFont(new java.awt.Font("Noto Sans", 3, 14)); // NOI18N
         not_confirmacion.setForeground(new java.awt.Color(58, 202, 61));
@@ -95,54 +115,57 @@ public class MiCuenta extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(195, 195, 195)
-                        .addComponent(userName))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwdBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(error2))
-                    .addComponent(botonBaja)
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(botonCambio))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(not_confirmacion)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                                    .addComponent(jPasswordField2))
+                                .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(error1)))))
-                .addContainerGap(122, Short.MAX_VALUE))
+                                .addComponent(passwdBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(error2))
+                            .addComponent(botonBaja)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(botonCambio))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(not_confirmacion)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(oldPass)
+                                            .addComponent(newPass, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(error1))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(173, 173, 173)
+                        .addComponent(userName)))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userName)
-                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userName))
                 .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(oldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(error1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -163,7 +186,43 @@ public class MiCuenta extends javax.swing.JPanel {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
+        ventana.setContentPane(vista);
+        ventana.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
+
+    private void botonCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCambioActionPerformed
+        try {
+            // TODO add your handling code here:
+            if(vista.getServidor().changePass(vista.getUsuario().getNombre(), oldPass.getText(), newPass.getText())){
+                error1.setVisible(false);
+                not_confirmacion.setVisible(true);
+            }else{
+                not_confirmacion.setVisible(false);
+                error1.setVisible(true);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(MiCuenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonCambioActionPerformed
+
+    private void oldPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oldPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oldPassActionPerformed
+
+    private void botonBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBajaActionPerformed
+        try {
+            // TODO add your handling code here:
+            if(vista.getServidor().bajaUsuario(userName.getText(),passwdBaja.getText())){
+                Login lG = new Login(vista.getServidor(), ventana);
+                ventana.setContentPane(lG);
+                ventana.setVisible(true);
+            }else{
+                error2.setVisible(true);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(MiCuenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -177,9 +236,9 @@ public class MiCuenta extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField newPass;
     private javax.swing.JLabel not_confirmacion;
+    private javax.swing.JPasswordField oldPass;
     private javax.swing.JPasswordField passwdBaja;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables

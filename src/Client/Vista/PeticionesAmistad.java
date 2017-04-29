@@ -20,6 +20,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
     private final vPrincipal vista;
     private VFrame ventana;
     private DefaultListModel modelo;
+    private DefaultListModel modeloBuscar;
     /**
      * Creates new form PeticionesAmistad
      */
@@ -30,6 +31,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         not_nuevoAmigo.setVisible(false);
         not_envioPeticion.setVisible(false);
         modelo = new DefaultListModel();
+        modeloBuscar = new DefaultListModel();
         try {
             ArrayList<String> peticiones = vista.getServidor().getPeticiones(vista.getUsuario().getNombre());
             for(String s : peticiones)
@@ -61,8 +63,8 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         botonEnviar = new javax.swing.JButton();
         not_envioPeticion = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        listaBusca = new javax.swing.JList<>();
+        botonBuscar = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(listaPeticiones);
 
@@ -106,14 +108,14 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         not_envioPeticion.setForeground(new java.awt.Color(65, 196, 70));
         not_envioPeticion.setText("Petición enviada correctamente");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(listaBusca);
 
-        jButton1.setText("Buscar");
+        botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,7 +138,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(peticionAmistad, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(botonBuscar))
                     .addComponent(not_envioPeticion)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,18 +168,18 @@ public class PeticionesAmistad extends javax.swing.JPanel {
                         .addComponent(botonRechazar))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(peticionAmistad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))
+                                    .addComponent(botonBuscar))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addGap(112, 112, 112)
-                                        .addComponent(botonEnviar))))
+                                        .addComponent(botonEnviar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane2))))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(not_nuevoAmigo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,6 +198,8 @@ public class PeticionesAmistad extends javax.swing.JPanel {
                 modelo.removeElementAt(index);
                 listaPeticiones.setModel(modelo);
                 not_nuevoAmigo.setText("Ahora " + amigo + " es tu nuevo amigo.");
+                not_nuevoAmigo.setVisible(true);
+                vista.actualizaAmigos();
             } catch (RemoteException ex) {
                 //Error al enviar
                 Logger.getLogger(vPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,8 +210,13 @@ public class PeticionesAmistad extends javax.swing.JPanel {
     private void botonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnviarActionPerformed
         try {
             // TODO add your handling code here:
-            vista.getServidor().envioPeticionAmistad(vista.getUsuario().getNombre(), peticionAmistad.getText());
-            not_envioPeticion.setVisible(true);
+            int index;
+            index = listaBusca.getSelectedIndex();
+            if(index >= 0){
+                String amigo = (String)modeloBuscar.get(index);
+                vista.getServidor().envioPeticionAmistad(vista.getUsuario().getNombre(), amigo);
+                not_envioPeticion.setVisible(true);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(PeticionesAmistad.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -217,6 +226,7 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         // TODO add your handling code here:
         ventana.setContentPane(vista);
         ventana.setVisible(true);
+        vista.actualizaAmigos();
     }//GEN-LAST:event_backActionPerformed
 
     private void botonRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRechazarActionPerformed
@@ -236,18 +246,35 @@ public class PeticionesAmistad extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_botonRechazarActionPerformed
 
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        try {
+            // TODO add your handling code here:
+            ArrayList<String> resultado = vista.getServidor().buscarUsuarios(vista.getUsuario().getNombre(), peticionAmistad.getText());
+            modeloBuscar.clear();
+            
+            for(String user : resultado) 
+                modeloBuscar.addElement(user);
+            
+            listaBusca.setModel(modeloBuscar);
+        } catch (RemoteException ex) {
+            Logger.getLogger(PeticionesAmistad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_botonBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JButton botonAceptar;
+    private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEnviar;
     private javax.swing.JButton botonRechazar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> listaBusca;
     private javax.swing.JList<String> listaPeticiones;
     private javax.swing.JLabel not_envioPeticion;
     private javax.swing.JLabel not_nuevoAmigo;

@@ -87,7 +87,7 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
         clientesConectados.remove(cliente.getNombre());
         clientesConectados.forEach((k, v) -> {
             try {
-                if( v.getNombre().equals(cliente.getNombre())) v.notificarAmigoDesconectado(k);
+                v.notificarAmigoDesconectado(cliente.getNombre());
             } catch (RemoteException ex) {
                 Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

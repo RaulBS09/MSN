@@ -116,8 +116,10 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
 
     @Override
     public void notificarAmigoDesconectado(String idAmigo) {
-        amigos.remove(idAmigo);
-        panel.actualizaAmigos();
+        if(amigos.containsKey(idAmigo)){
+            amigos.remove(idAmigo);
+            panel.actualizaAmigos();
+        }
     }
     
     @Override

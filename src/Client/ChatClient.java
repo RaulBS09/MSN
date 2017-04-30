@@ -28,6 +28,7 @@ public class ChatClient {
         VFrame cuadro = new VFrame();
         Login login = new Login(h, cuadro);
         cuadro.setContentPane(login);
+       
         cuadro.setVisible(true);
         
         }catch(Exception ex){

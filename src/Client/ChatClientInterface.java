@@ -18,7 +18,7 @@ public interface ChatClientInterface extends Remote{
     
     public void textMe(String user, String msg) throws java.rmi.RemoteException;
     public void envioArchivo(String file, byte[] data, int tam) throws java.rmi.RemoteException;;
-    public void newLogin(String user) throws java.rmi.RemoteException;
+    
     public boolean login( ) throws java.rmi.RemoteException;
     
     public String getNombre() throws java.rmi.RemoteException;

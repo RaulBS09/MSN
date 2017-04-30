@@ -233,6 +233,10 @@ public class ChatServerImpl extends UnicastRemoteObject implements ChatServerInt
             con.ejecutarOperacion("INSERT INTO amigos VALUES('"+origen+"','"+destino+"');");
             c.close();
             con.cerrarConexion();
+            if(clientesConectados.containsKey(origen)){
+                clientesConectados.get(origen).notificarAmigoConectado(destino, clientesConectados.get(destino));
+                clientesConectados.get(destino).notificarAmigoConectado(origen, clientesConectados.get(origen));
+            }
             return true;
         } catch (Exception ex) {
             Logger.getLogger(ChatServerImpl.class.getName()).log(Level.SEVERE, null, ex);

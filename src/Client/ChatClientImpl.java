@@ -83,11 +83,6 @@ public class ChatClientImpl extends UnicastRemoteObject implements ChatClientInt
         conversaciones.put(user, C);
         panel.actualizaConversacion(user);
     }
-
-    @Override
-    public void newLogin(String user) throws RemoteException {
-        System.out.println(user + " es tu colegui y ha iniciado sesión.");
-    }
     
     public String getConversacion(String amigo){
         return conversaciones.get(amigo);
